@@ -33,8 +33,11 @@ class CanLII(object):
             
         return response
         
-    def caseBrowse(self, **kwargs):
-        return self.call('caseBrowse', **kwargs)
+    def caseBrowse(self, *args, **kwargs):
+        return self.call('caseBrowse', *args, **kwargs)
     
-    def legislationBrowse(self, **kwargs):
-        return self.call('legislationBrowse', **kwargs)
+    def legislationBrowse(self, *args, **kwargs):
+        return self.call('legislationBrowse', *args, **kwargs)
+
+    def caseCitatorTease(self, *args, **kwargs):
+        return self.call('caseCitatorTease', *args, **kwargs)
