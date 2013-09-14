@@ -11,7 +11,8 @@ class CanLII(object):
         self.language = language
         self.api_key = api_key
         
-    def call(self, action, database = None, case = None, limit = 100, offset = 0):
+    def call(self, action, database = None, case = None, limit = 100, offset = 0,
+            trailing_action=None):
         d = {'resultCount': limit, 'offset': offset, 'api_key': self.api_key}
         params = urllib.urlencode(dict((k,v) for k, v in d.iteritems() if v is not None))
 
@@ -21,6 +22,9 @@ class CanLII(object):
             path = "%s/%s/%s" % (action, self.language, database)
         else:
             path = "%s/%s/%s/%s" % (action, self.language, database, case)
+
+        if trailing_action:
+            path = path + "/" + trailing_action
         
         url = urllib.basejoin(self.address, path) 
         
@@ -39,5 +43,10 @@ class CanLII(object):
     def legislationBrowse(self, *args, **kwargs):
         return self.call('legislationBrowse', *args, **kwargs)
 
-    def caseCitatorTease(self, *args, **kwargs):
-        return self.call('caseCitatorTease', *args, **kwargs)
+    def citedCases(self, *args, **kwargs):
+        return self.call('caseCitator', *args, trailing_action='citedCases',
+            **kwargs)
+
+    def citingCases(self, *args, **kwargs):
+        return self.call('caseCitator', *args, trailing_action='citingCases',
+            **kwargs)
